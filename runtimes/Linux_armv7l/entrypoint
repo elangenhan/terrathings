@@ -1,0 +1,8 @@
+#/usr/bin/env sh
+
+# Make sure working directory is the location of this script
+export HOME=$(dirname "$0")
+cd "$HOME"
+
+environment=$(cat data/active_runtime)
+cd runtime_$environment && ./entrypoint

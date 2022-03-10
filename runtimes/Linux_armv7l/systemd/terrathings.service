@@ -1,0 +1,12 @@
+[Unit]
+Description=Terrathings
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/terrathings
+ExecStart=/usr/bin/bash /opt/terrathings/entrypoint
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

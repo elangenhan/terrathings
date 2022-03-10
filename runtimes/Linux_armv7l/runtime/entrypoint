@@ -1,0 +1,28 @@
+#!/bin/bash
+
+echo "entering runtime entrypoint"
+
+check_requirements_and_update() {
+    echo "Checking dependencies and updating if required"
+    calculated_checksum=$(sha256sum requirements.txt)
+    cached_checksum=$([[ -f .requirements.txt.sha256 ]] && cat .requirements.txt.sha256)
+
+    if [[ -z "$cached_checksum" || "$calculated_checksum" != "$cached_checksum" ]]
+    then
+        echo "Installing dependencies..."
+
+        # Entering virtualenv
+        source .venv/bin/activate && pip install -r requirements.txt
+        sha256sum requirements.txt > .requirements.txt.sha256
+    fi
+}
+
+# Make sure working directory is the location of this script
+cd "$(dirname "$0")"
+
+# Create virtualenv if not exists
+[ ! -d ".venv/" ] && echo "Creating virtualenv" && python3 -m venv .venv
+
+check_requirements_and_update
+
+source .venv/bin/activate && uvicorn main:app --reload --host 0.0.0.0

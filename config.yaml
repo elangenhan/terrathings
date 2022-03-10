@@ -1,0 +1,52 @@
+applications:
+  - id: blink
+    src: ./apps/blink/
+    build_cmd: ./build.sh
+    out_file: ./build/app.wasm
+    sign_key: !ENV ${SIGN_KEY}
+    properties:
+
+devices:
+  - id: rpi
+    src: ./runtimes/Linux_armv7l/
+    build_cmd: ./build.sh
+    out_file: ./runtime.tar.gz
+    sign_key: !ENV ${SIGN_KEY}
+    properties:
+      verification_key: !ENV ${VERIFICATION_KEY}
+      gpio_pin_mapping: 1:14,2:15,3:18
+    init:
+      connection: ssh
+      properties:
+        host: 10.0.0.10 # change me
+        username: pi # change me 
+        password: raspberry # change me
+        remote_init_command: bash /opt/terrathings/install.sh
+    update:
+      connection: UpdateAPI
+      properties:
+        host: 10.0.0.10 # change me
+        port: 8000
+    applications:
+      - blink
+  - id: esp
+    src: ./runtimes/esp32/
+    build_cmd: ./build.sh
+    out_file: ./firmware.bin
+    sign_key: !ENV ${SIGN_KEY}
+    properties:
+      verification_key: !ENV ${VERIFICATION_KEY}
+      wifi_ssid: !ENV ${WIFI_SSID}
+      wifi_password: !ENV ${WIFI_PASSWORD}
+      gpio_pin_mapping: 1:19,2:18,3:5
+    init:
+      connection: ESPSerial
+      manual: True
+      properties:
+        device: /dev/ttyUSB0 # change me 
+        baudrate: 115200
+        cmd: ./init.sh
+    update:
+      connection: UpdateAPI
+    applications:
+      - blink
