@@ -49,13 +49,8 @@ def init(config, filter_by_device_ids, manual=False):
             )
         )
 
-    if devices:
-        filtered_devices = list(filter(lambda d: d["id"] in devices, config["devices"]))
-        compile_runtimes(filtered_devices)
-        init_devices(filtered_devices)
-    else:
-        compile_runtimes(config["devices"])
-        init_devices(config["devices"])
+    compile_runtimes(devices)
+    init_devices(devices)
 
 
 def update(config, filter_devices, filter_apps_by_ids):
@@ -101,6 +96,10 @@ def compile_runtimes(devices):
     :param list devices: list of devices to compile the runtime for
     """
 
+    log.debug(
+        f"Compiling runtimes for {len(devices)} devices: {[x['id'] for x in devices]}"
+    )
+
     for device_config in devices:
         device = Device(device_config)
 
@@ -144,6 +143,8 @@ def init_devices(devices):
 
     :param list devices: list of devices to initialize
     """
+
+    log.debug(f"Initializing {len(devices)} devices: {[x['id'] for x in devices]}")
 
     for device_config in devices:
         log.info(f"Initializing device: {device_config['id']}")

@@ -18,14 +18,14 @@ devices:
     init:
       connection: ssh
       properties:
-        host: 10.0.0.10 # change me
+        host: 10.42.0.224 # change me
         username: pi # change me 
         password: raspberry # change me
         remote_init_command: bash /opt/terrathings/install.sh
     update:
       connection: UpdateAPI
       properties:
-        host: 10.0.0.10 # change me
+        host: 10.42.0.224 # change me
         port: 8000
     applications:
       - blink
