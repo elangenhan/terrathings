@@ -1,6 +1,18 @@
 applications:
+  - id: dummy
+    src: ./apps/dummy/
+    build_cmd: ./build.sh
+    out_file: ./build/app.wasm
+    sign_key: !ENV ${SIGN_KEY}
+    properties:
   - id: blink
     src: ./apps/blink/
+    build_cmd: ./build.sh
+    out_file: ./build/app.wasm
+    sign_key: !ENV ${SIGN_KEY}
+    properties:
+  - id: blink2
+    src: ./apps/blink2/
     build_cmd: ./build.sh
     out_file: ./build/app.wasm
     sign_key: !ENV ${SIGN_KEY}
@@ -14,22 +26,23 @@ devices:
     sign_key: !ENV ${SIGN_KEY}
     properties:
       verification_key: !ENV ${VERIFICATION_KEY}
-      gpio_pin_mapping: 1:14,2:15,3:18
+      gpio_pin_mapping: 1:18,2:14,3:15
     init:
       connection: ssh
       properties:
-        host: 10.42.0.224 # change me
-        username: pi # change me 
-        password: raspberry # change me
+        host: 10.42.0.18 # change me
+        username: demo # change me 
+        password: terrathingsdemo # change me
         remote_init_command: bash /opt/terrathings/install.sh
     update:
       connection: UpdateAPI
       properties:
-        host: 10.42.0.224 # change me
+        host: 10.42.0.18 # change me
         port: 8000
     applications:
-      - blink
-  - id: esp
+      - blink2
+
+  - id: esp1
     src: ./runtimes/esp32/
     build_cmd: ./build.sh
     out_file: ./firmware.bin
@@ -49,4 +62,25 @@ devices:
     update:
       connection: UpdateAPI
     applications:
-      - blink
+
+
+  - id: esp2
+    src: ./runtimes/esp32/
+    build_cmd: ./build.sh
+    out_file: ./firmware.bin
+    sign_key: !ENV ${SIGN_KEY}
+    properties:
+      verification_key: !ENV ${VERIFICATION_KEY}
+      wifi_ssid: !ENV ${WIFI_SSID}
+      wifi_password: !ENV ${WIFI_PASSWORD}
+      gpio_pin_mapping: 1:12,2:14,3:27
+    init:
+      connection: ESPSerial
+      manual: True
+      properties:
+        device: /dev/ttyUSB0 # change me 
+        baudrate: 115200
+        cmd: ./init.sh
+    update:
+      connection: UpdateAPI
+    applications:

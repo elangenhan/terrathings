@@ -109,11 +109,14 @@ def compile_runtimes(devices):
             with open(build_sha256_file, "r") as f:
                 previous_build_sha256 = f.read()
         except Exception:
-            log.info(f"No previous build found for runtime: {device.runtime}")
+            log.info(f"No previous build found for runtime: {device.id}")
+
+        with open(f"{build_sha256_file}.properties", "w") as f:
+            f.write(str(device.properties))
 
         current_build_sha256 = device.get_template_sha256()
         if current_build_sha256 != previous_build_sha256:
-            log.info(f"Compiling runtime: {device.runtime}")
+            log.info(f"Compiling runtime: {device.id}")
 
             exec(
                 device_config["build_cmd"],
@@ -134,7 +137,7 @@ def compile_runtimes(devices):
 
             sign_file(outfile, device_config["sign_key"])
         else:
-            log.info(f"{device.runtime}: No need to compile")
+            log.info(f"{device.id}: No need to compile")
 
 
 def init_devices(devices):
@@ -167,8 +170,12 @@ def update_partial(devices, apps):
         """
         "   Partial Update
         """
-        app_id = device.apps[0]
+        app_id = "dummy" if device.apps is None else device.apps[0]
         app = next((x for x in apps if x["id"] == app_id), None)
+
+        if app is None:
+            log.error(f"App {app_id} not found")
+            break
 
         with open(f"{os.getcwd()}/{app['src']}build/app.wasm.sha256", "rb") as f:
             deployment_sha256 = base64.b64encode(f.read()).decode()
@@ -202,7 +209,7 @@ def update_full(devices):
         with open(build_dir + device_config["out_file"] + ".sha256", "rb") as f:
             runtime_sha256 = base64.b64encode(f.read()).decode()
 
-        runtime_id = device.runtime
+        runtime_id = device.id
 
         log.debug(
             f"{device_config['id']} Runtime SHA256: {status.runtime.sha256} |> {runtime_sha256}"

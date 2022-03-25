@@ -18,24 +18,24 @@ function setup(): void {
 }
 
 function run(): void {
-  // dev.println('🔄 Loop Version A');
+  dev.println('🔄 Loop Version A');
+  dev.delay(1000);
+  dev.digitalWrite(led1red, dev.HIGH);
+  dev.delay(1000);
+  dev.digitalWrite(led1red, dev.LOW);
+  dev.digitalWrite(led1green, dev.HIGH);
+  dev.delay(1000);
+  dev.digitalWrite(led1green, dev.LOW);
+  dev.digitalWrite(led1blue, dev.HIGH);
+  dev.delay(1000);
+  dev.digitalWrite(led1blue, dev.LOW);
+  dev.delay(1000);
+
+  // dev.println('🔄 Loop Version B');
   // dev.delay(1000);
   // dev.digitalWrite(led1red, dev.HIGH);
   // dev.delay(1000);
   // dev.digitalWrite(led1red, dev.LOW);
-  // dev.digitalWrite(led1green, dev.HIGH);
-  // dev.delay(1000);
-  // dev.digitalWrite(led1green, dev.LOW);
-  // dev.digitalWrite(led1blue, dev.HIGH);
-  // dev.delay(1000);
-  // dev.digitalWrite(led1blue, dev.LOW);
-  // dev.delay(1000);
-
-  dev.println('🔄 Loop Version B');
-  dev.delay(5000);
-  dev.digitalWrite(led1red, dev.HIGH);
-  dev.delay(1000);
-  dev.digitalWrite(led1red, dev.LOW);
   // dev.digitalWrite(led1green, dev.HIGH);
   // dev.delay(1000);
   // dev.digitalWrite(led1green, dev.LOW);
