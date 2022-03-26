@@ -76,16 +76,15 @@ class ESPSerial(ConnectionPlugin):
         )
         ser.flushInput()
         ser.flushOutput()
-        ser.write(b"\x00")
         while True:
-            ser.write(b"\x00")
+            ser.write(b"\n")
             data = ser.readline().decode("utf-8")
             print(data)
             try:
                 data = json.loads(data)
                 return data
             except:
-                log.warning(f"ESPSerial Error: {data}")
+                log.debug(f"ESPSerial Error: {data}")
 
     def _flash_with_pio(self):
         # PATH=$PATH:~/.platformio/penv/bin

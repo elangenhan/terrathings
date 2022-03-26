@@ -137,7 +137,7 @@ def compile_runtimes(devices):
 
             sign_file(outfile, device_config["sign_key"])
         else:
-            log.info(f"{device.id}: No need to compile")
+            log.info(f"{device.id}: No need to compile runtime")
 
 
 def init_devices(devices):

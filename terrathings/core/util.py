@@ -19,7 +19,6 @@ def read_device_ip_from_cache(device_id: str):
     :rtype: str or None
     """
 
-    print("Reading ip from cache: " + device_id)
     with open(device_ip_cache_filename, "r") as f:
         for line in reversed(f.readlines()):
             if line.startswith(device_id):

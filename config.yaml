@@ -26,7 +26,7 @@ devices:
     sign_key: !ENV ${SIGN_KEY}
     properties:
       verification_key: !ENV ${VERIFICATION_KEY}
-      gpio_pin_mapping: 1:18,2:14,3:15
+      gpio_pin_mapping: 1:14,2:15,3:18
     init:
       connection: ssh
       properties:
@@ -40,10 +40,10 @@ devices:
         host: 10.42.0.18 # change me
         port: 8000
     applications:
-      - blink2
+      # - blink2
 
   - id: esp1
-    src: ./runtimes/esp32/
+    src: ./runtimes/esp32_2/
     build_cmd: ./build.sh
     out_file: ./firmware.bin
     sign_key: !ENV ${SIGN_KEY}
@@ -62,7 +62,7 @@ devices:
     update:
       connection: UpdateAPI
     applications:
-
+      # - blink2
 
   - id: esp2
     src: ./runtimes/esp32/
@@ -84,3 +84,26 @@ devices:
     update:
       connection: UpdateAPI
     applications:
+      # - blink2
+
+  - id: esp3
+    src: ./runtimes/esp32/
+    build_cmd: ./build.sh
+    out_file: ./firmware.bin
+    sign_key: !ENV ${SIGN_KEY}
+    properties:
+      verification_key: !ENV ${VERIFICATION_KEY}
+      wifi_ssid: !ENV ${WIFI_SSID}
+      wifi_password: !ENV ${WIFI_PASSWORD}
+      gpio_pin_mapping: 1:12,2:14,3:27
+    init:
+      connection: ESPSerial
+      manual: True
+      properties:
+        device: /dev/ttyUSB0 # change me 
+        baudrate: 115200
+        cmd: ./init.sh
+    update:
+      connection: UpdateAPI
+    applications:
+      # - blink2
