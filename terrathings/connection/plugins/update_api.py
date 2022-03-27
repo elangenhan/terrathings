@@ -29,7 +29,7 @@ class UpdateAPI(ConnectionPlugin):
         """Reads device ip from config, if not found, reads it from cache"""
         host = properties.get("host", None)
         if host is None:
-            log.info(f"No host for device {device.id} found, using cache")
+            log.debug(f"No host for device {device.id} found, using cache")
             host = read_device_ip_from_cache(device.id)
 
         if host is None:
@@ -73,7 +73,7 @@ class UpdateAPI(ConnectionPlugin):
         """ Reads device ip from config, if not found, reads it from cache """
         host = properties.get("host", None)
         if host is None:
-            log.info(f"No host for device {device.id} found, using cache")
+            log.debug(f"No host for device {device.id} found, using cache")
             host = read_device_ip_from_cache(device.id)
 
         if host is None:
@@ -123,7 +123,7 @@ class UpdateAPI(ConnectionPlugin):
         """ Reads device ip from config, if not found, reads it from cache """
         host = properties.get("host", None)
         if host is None:
-            log.info(f"No host for device {device.id} found, using cache")
+            log.debug(f"No host for device {device.id} found, using cache")
             host = read_device_ip_from_cache(device.id)
 
         if host is None:
@@ -136,7 +136,8 @@ class UpdateAPI(ConnectionPlugin):
             f"{baseurl}/update?type=partial&signature={signature}&deployment_id={deployment_id}",
             files=files,
         )
-        log.info(r.text)
+        if r and r.text:
+            log.info(r.text)
 
 
 plugins.register(UpdateAPI)

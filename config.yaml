@@ -19,7 +19,7 @@ applications:
     properties:
 
 devices:
-  - id: rpi
+  - id: rpi1
     src: ./runtimes/Linux_armv7l/
     build_cmd: ./build.sh
     out_file: ./runtime.tar.gz
@@ -40,7 +40,7 @@ devices:
         host: 10.42.0.18 # change me
         port: 8000
     applications:
-      # - blink2
+      - blink
 
   - id: esp1
     src: ./runtimes/esp32_2/
@@ -62,7 +62,7 @@ devices:
     update:
       connection: UpdateAPI
     applications:
-      # - blink2
+      - blink
 
   - id: esp2
     src: ./runtimes/esp32/
@@ -84,7 +84,7 @@ devices:
     update:
       connection: UpdateAPI
     applications:
-      # - blink2
+      # - blink
 
   - id: esp3
     src: ./runtimes/esp32/
@@ -106,4 +106,5 @@ devices:
     update:
       connection: UpdateAPI
     applications:
-      # - blink2
+      # - blink
+

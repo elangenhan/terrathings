@@ -184,7 +184,7 @@ def update_partial(devices, apps):
             log.info(f"Updating deployment {app_id} @ {device.id}")
             device.update_partial(app_id, app)
         else:
-            log.info(f"Deployment {app_id} @ {device.id} is up to date")
+            log.info(f"Application {app_id} @ {device.id} is up to date")
 
 
 def update_full(devices):
@@ -221,9 +221,7 @@ def update_full(devices):
             )
             device.update_full(status.runtime.id, device_config)
         else:
-            log.info(
-                f"Skip updating runtime for device, already up to date: {runtime_id} @ {device_config['id']}"
-            )
+            log.info(f"Runtime @ {runtime_id} is up to date")
 
 
 def update_devices(devices, apps):
@@ -241,7 +239,7 @@ def compile_apps(apps):
     :param list apps: list of applications to compile
     """
     for deployment in apps:
-        log.info(f"Compiling deployment: {deployment['id']}")
+        log.info(f"Compiling application: {deployment['id']}")
 
         exec(
             deployment["build_cmd"],
